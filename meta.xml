@@ -1,0 +1,33 @@
+<meta>
+
+	<info
+		author="rifleh700"
+		version="1.0.0"
+		name="custom_vehicle_lights"
+		description="Custom vehicle lights system"
+		type="script"
+	/>
+
+	<include resource="extended_custom_coronas" />
+
+	<file src="config.xml" />
+		
+	<file src="mta-helper.fx" />
+	<file src="container.fx" />
+	<file src="lights.fx" />
+
+
+	<script src="check.lua"					type="shared" />
+
+	<script src="cvl_helper_shared.lua"		type="shared" />
+	<script src="cvl_import_client.lua"		type="client" />
+
+    <script src="cvl_main_client.lua"		type="client" />
+    <script src="cvl_exported_client.lua"	type="client" />
+
+    <export function="getVehicleCustomLightName" type="shared" />
+    <export function="getVehicleCustomLightFromName" type="shared" />
+    <export function="getVehicleCustomLightPower" type="shared" />
+    <export function="setVehicleCustomLightPower" type="shared" />
+
+</meta>
