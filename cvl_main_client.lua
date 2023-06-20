@@ -190,10 +190,6 @@ addEventHandler("onClientElementDestroy", root,
 
 function CVL.loadConfig()
 		
-	local testNode = xmlLoadFile("meta.xml", true)
-	local v = xmlNodeGetData(testNode)
-	iprint(v)
-
 	local configNode = xmlLoadFile(CONFIG_PATH, true)
 	local dummiesConfigNode = xmlNodeFindChild(configNode, "dummies")
 	local dummiesConfigNodeData = xmlNodeGetData(dummiesConfigNode)
