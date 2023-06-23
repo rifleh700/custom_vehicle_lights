@@ -21,7 +21,6 @@ local vehicleModelDefaultDummiesRotation = {
 }
 
 CVL = {}
-CVL.dummiesData = {}
 CVL.lightsData = {}
 CVL.shaderMacros = ""
 CVL.vehiclesData = {}
@@ -88,7 +87,7 @@ function CVL.setLightPower(vehicle, lightID, power)
 
 	local corona = (CVL.getData(vehicle, "coronas") or {})[lightID]
 	if corona then
-		local alpha = power * CVL.dummiesData[CVL.lightsData[lightID].dummy].color[4]
+		local alpha = power * CVL.lightsData[lightID].color[4]
 		setCoronaAlpha(corona, alpha)
 	end
 
@@ -101,17 +100,14 @@ function CVL.createCoronas(vehicle)
 	local coronas = {}
 	for lightID, lightData in ipairs(CVL.lightsData) do
 		if lightData.dummy then
-			local dummyData = CVL.dummiesData[lightData.dummy]
-			if dummyData then
-				local offX, offY, offZ = CVL.getDummyPosition(vehicle, lightData.dummy)
-				if offX then
-					local alpha = (lightData.power or 0) * dummyData.color[4]
-					local corona = createDirectionalCorona(0, 0, 0, 0, 0, 0, dummyData.size, dummyData.color[1], dummyData.color[2], dummyData.color[3], alpha)
-					setDirectionalCoronaCone(corona, CORONA_OUTER_CONE, CORONA_INNER_CONE)
-					local offRX, offRY, offRZ = CVL.getDummyRotation(vehicle, lightData.dummy)
-					attachCorona(corona, vehicle, offX * (lightData.mirrored and -1 or 1), offY, offZ, offRX, offRZ, -offRY * (lightData.mirrored and -1 or 1))
-					coronas[lightID] = corona
-				end
+			local offX, offY, offZ = CVL.getDummyPosition(vehicle, lightData.dummy)
+			if offX then
+				local alpha = (lightData.power or 0) * lightData.color[4]
+				local corona = createDirectionalCorona(0, 0, 0, 0, 0, 0, lightData.size, lightData.color[1], lightData.color[2], lightData.color[3], alpha)
+				setDirectionalCoronaCone(corona, CORONA_OUTER_CONE, CORONA_INNER_CONE)
+				local offRX, offRY, offRZ = CVL.getDummyRotation(vehicle, lightData.dummy)
+				attachCorona(corona, vehicle, offX * (lightData.mirrored and -1 or 1), offY, offZ, offRX, offRZ, -offRY * (lightData.mirrored and -1 or 1))
+				coronas[lightID] = corona
 			end
 		end
 	end
@@ -193,8 +189,6 @@ function CVL.loadConfig()
 	local configNode = xmlLoadFile(CONFIG_PATH, true)
 	local texturesConfigNode = xmlNodeFindChild(configNode, "textures")
 	local texturesConfigNodeData = xmlNodeGetData(texturesConfigNode)
-	local dummiesConfigNode = xmlNodeFindChild(configNode, "dummies")
-	local dummiesConfigNodeData = xmlNodeGetData(dummiesConfigNode)
 	local lightsConfigNode = xmlNodeFindChild(configNode, "lights")
 	local lightsConfigNodeData = xmlNodeGetData(lightsConfigNode)
 	xmlUnloadFile(configNode)
@@ -205,28 +199,22 @@ function CVL.loadConfig()
 	end
 	CVL.textures = textures
 
-	local dummiesData = {}
-	for i, nodeData in ipairs(dummiesConfigNodeData.children) do
-		local dummyData = {
-			size = tonumber(nodeData.attributes.size),
-			color = {}
-		}
-		local iterator = string.gmatch(nodeData.attributes.color, "%d+")
-		for c = 1, 4 do
-			dummyData.color[c] = tonumber(iterator() or 255)
-		end
-		dummiesData[nodeData.attributes.name] = dummyData
-	end
-	CVL.dummiesData = dummiesData
-
 	local macroFlagsArray = ""
 	local lightsData = {}
 	for i, nodeData in ipairs(lightsConfigNodeData.children) do
 		local lightData = {
 			name = nodeData.attributes.name,
-			dummy = nodeData.attributes.dummy,
-			mirrored = nodeData.attributes.mirrored == tostring(true)
+			dummy = nodeData.attributes.dummy
 		}
+		if lightData.dummy then
+			lightData.mirrored = nodeData.attributes.mirrored == tostring(true)
+			lightData.size = tonumber(nodeData.attributes.size)
+			lightData.color = {}
+			local iterator = string.gmatch(nodeData.attributes.color, "%d+")
+			for c = 1, 4 do
+				lightData.color[c] = tonumber(iterator() or 255)
+			end
+		end
 		lightsData[i] = lightData
 
 		local flag = {}
