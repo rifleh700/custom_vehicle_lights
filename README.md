@@ -25,12 +25,10 @@ The resource uses custom directional coronas to emmulate light effect. So it req
 ### Lights config
 Firstly look at `config.xml`. Here is lights properties. Use it as is or change it as you want.
 
-####Texture item
-It tells what textures will be used for lights.
+Texture item tells what textures will be used for lights:
 - `name` name of the texture
 
-####Light item
-Concrete custom light
+Light item means concrete custom light:
 - `name` unique name of the light (used in functions)
 - `flag` material diffuse rgb value of the texture
 - `dummy` vehicle dummy name, used for custom corona
@@ -38,7 +36,7 @@ Concrete custom light
 - `color` color of custom corona
 - `mirrrored` use it if u want to mirror dummy position (it's usually used for left-side lights)
 
-###Model adaptation
+### Model adaptation
 Steps by example of `reverse_r` light:
 - create material with texture named `vehiclelights` (this is just default name, you can change it or add another in config, **default GTA:SA texture `vehiclelights128` is not allowed due to technical limits**)
 - define material diffuse color equals to `flag` value, for `reverse_r` it is `255,58,1`
