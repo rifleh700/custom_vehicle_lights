@@ -7,7 +7,7 @@ The resource provides only client-side lights API. For ready to use lights syste
 
 ## Features
 - One shader per vehicle
-- One light texture per vehicle (or you can use more if you need)
+- Single light texture (or you can use more if you need)
 - Up to 48 lights per vehicle (technically it can be extended in future)
 - Flexible configuration
 - Non-discrete light power (from 0 to 1)
