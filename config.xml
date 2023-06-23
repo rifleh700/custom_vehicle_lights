@@ -24,8 +24,8 @@
 	<lights>
 	
 		<!-- head light doesn't create custom corona, default SA light effect is using -->
-		<light name="head_l"		flag="255,175,1" />
-		<light name="head_r"		flag="1,255,200" />
+		<light name="head_l"		flag="255,175,1"	/>
+		<light name="head_r"		flag="1,255,200"	/>
 	
 		<light name="indicatorf_l"	flag="255,174,1"	dummy="indicatorsf"		size="0.1"	color="255,180,0,90"	mirrored="true"	/>
 		<light name="indicatorf_r"	flag="1,255,199"	dummy="indicatorsf"		size="0.1"	color="255,180,0,90"	/>
