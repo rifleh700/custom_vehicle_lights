@@ -11,7 +11,7 @@ float GetContainerData(int index) {
 	
 	int intItems[] = {0, 0, 0};
 	float containerInt = sDataContainer1[containerIndex];
-    intItems[2] = floor(containerInt / 256.0 / 256.0);
+	intItems[2] = floor(containerInt / 256.0 / 256.0);
     intItems[1] = floor((containerInt - intItems[2] * 256.0 * 256.0) / 256.0);
     intItems[0] = floor(containerInt - intItems[2] * 256.0 * 256.0 - intItems[1] * 256.0);
     

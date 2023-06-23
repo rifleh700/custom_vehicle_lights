@@ -1,12 +1,16 @@
 
-#include "mta-helper.fx"
 #include "container.fx"
+
+float4 gMaterialAmbient     < string materialState="Ambient"; >;
+float4 gMaterialDiffuse     < string materialState="Diffuse"; >;
+float4 gMaterialSpecular    < string materialState="Specular"; >;
+float4 gMaterialEmissive    < string materialState="Emissive"; >;
+float gMaterialSpecPower    < string materialState="Power"; >;
 
 static float M_EPS = 1/256.0;
 static float4 WHITE = 1;
 static int NOT_LIGHT = -1;
 
-// 48 lights max
 static float3 LIGHTS_FLAGS[MACRO_LIGHTS_FLAGS_ARRAY_SIZE] = {
 	MACRO_LIGHTS_FLAGS_ARRAY
 };

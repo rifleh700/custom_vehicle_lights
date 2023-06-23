@@ -1,19 +1,28 @@
 <config>
 
-	<!-- custom dummies vehicle must have -->
-	<!-- dummies must have correct direction (rotation) -->
+	<!--
+		List of light textures.
+		Note: you cannot use default vehiclelights128 or vehiclelightson128 textures.
+	--> 
+	<textures>
+		<texture name="vehiclelights" />
+	</textures>
+
+	<!--
+		List of custom dummies vehicle must have. They are used for creating light custom coronas.  
+		Note: Default dummy side for paired lights is right! (it likes default GTA:SA lights)
+		Every dummy must have correct direction (rotation). Its direction is used as corona light direction.
+		Default GTA:SA lights dummies are also allowed. 
+	-->
 	<dummies>
-	
-		<!-- front -->
-		<dummy name="headlights" size="0.2" color="255,255,200,130" />
+
 		<dummy name="indicatorsf" size="0.1" color="255,180,0,90" />
 		<dummy name="foglightsf" size="0.14" color="255,230,0,130" />
 		<dummy name="parklightsf" size="0.05" color="255,255,200,90" />
 
-		<!-- middle/other -->
 		<dummy name="indicators" size="0.05" color="255,180,0,90" />
 
-		<!-- rear -->
+		<!-- default gta sa rear lights dummy is used here -->
 		<dummy name="taillights" size="0.1" color="255,0,0,90" />
 		<dummy name="brakelights" size="0.11" color="255,0,0,130" />
 		<dummy name="reverselights" size="0.08" color="255,255,200,90" />
@@ -22,44 +31,47 @@
 	
 	</dummies>
 
-	<!-- list of custom lights -->
-	<!-- please remember that "flag" property must not have zeros (1 is minimum) -->
-	<!-- side "right" means exactly dummy position, side "left" means mirrored position -->
+	<!--
+		List of custom lights. Every light has his own unique RGB flag,
+		which actually means material diffuse of lights texture
+		(yes, it works likes default GTA:SA lights flags, but actually it is just diffuse color).
+		Note: if u works with ZModeller, remember that DFF importing resets all diffuse colors! Work with ZModeler project files. 
+		Note: due to technical limits flag must not have zeros (1 is minimum)!
+	-->	
 	<lights>
 	
-		<!-- front -->
-		<!-- these lights don't create custom coronas, default SA light effect is using -->
+		<!-- head light doesn't create custom coronas, default SA light effect is using -->
 		<light name="head_l" flag="255,175,1" />
 		<light name="head_r" flag="1,255,200" />
 	
-		<light name="indicatorf_l" flag="255,174,1" dummy="indicatorsf" side="left" />
-		<light name="indicatorf_r" flag="1,255,199" dummy="indicatorsf" side="right" />
+		<light name="indicatorf_l" flag="255,174,1" dummy="indicatorsf" mirrored="true" />
+		<light name="indicatorf_r" flag="1,255,199" dummy="indicatorsf" />
 	
-		<light name="fogf_l" flag="255,173,1" dummy="foglightsf" side="left"  />
-		<light name="fogf_r" flag="1,255,198" dummy="foglightsf" side="right" />
+		<light name="fogf_l" flag="255,173,1" dummy="foglightsf" mirrored="true" />
+		<light name="fogf_r" flag="1,255,198" dummy="foglightsf" />
 			
-		<light name="parkf_l" flag="255,171,1" dummy="parklightsf" side="left" />
-		<light name="parkf_r" flag="1,255,196" dummy="parklightsf" side="right" />
+		<light name="parkf_l" flag="255,171,1" dummy="parklightsf" mirrored="true" />
+		<light name="parkf_r" flag="1,255,196" dummy="parklightsf" />
 		
-		<!-- middle/other -->
-		<light name="indicator_l" flag="1,195,255" dummy="indicators" side="left" />
-		<light name="indicator_r" flag="120,1,255" dummy="indicators" side="right" />
+
+		<light name="indicator_l" flag="1,195,255" dummy="indicators" mirrored="true" />
+		<light name="indicator_r" flag="120,1,255" dummy="indicators" />
 	
-		<!-- rear -->
-		<light name="tail_l" flag="185,255,1" dummy="taillights" side="left" />
-		<light name="tail_r" flag="255,60,1" dummy="taillights" side="right" />
+
+		<light name="tail_l" flag="185,255,1" dummy="taillights" mirrored="true" />
+		<light name="tail_r" flag="255,60,1" dummy="taillights" />
 	
-		<light name="brake_l" flag="184,255,1" dummy="brakelights" side="left" />
-		<light name="brake_r" flag="255,59,1" dummy="brakelights" side="right" />
+		<light name="brake_l" flag="184,255,1" dummy="brakelights" mirrored="true" />
+		<light name="brake_r" flag="255,59,1" dummy="brakelights" />
 	
-		<light name="reverse_l" flag="183,255,1" dummy="reverselights" side="left" />
-		<light name="reverse_r" flag="255,58,1" dummy="reverselights" side="right" />
+		<light name="reverse_l" flag="183,255,1" dummy="reverselights" mirrored="true" />
+		<light name="reverse_r" flag="255,58,1" dummy="reverselights" />
 	
-		<light name="indicatorr_l" flag="182,255,1" dummy="indicatorsr" side="left" />
-		<light name="indicatorr_r" flag="255,57,1" dummy="indicatorsr" side="right" />
+		<light name="indicatorr_l" flag="182,255,1" dummy="indicatorsr" mirrored="true" />
+		<light name="indicatorr_r" flag="255,57,1" dummy="indicatorsr" />
 	
-		<light name="fogr_l" flag="181,255,1" dummy="foglightsr" side="left" />
-		<light name="fogr_r" flag="255,56,1" dummy="foglightsr" side="right" />
+		<light name="fogr_l" flag="181,255,1" dummy="foglightsr" mirrored="true" />
+		<light name="fogr_r" flag="255,56,1" dummy="foglightsr" />
 	
 	</lights>
 
