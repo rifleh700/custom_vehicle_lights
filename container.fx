@@ -10,10 +10,11 @@ float GetContainerData(int index) {
 	int floatIndex = index % FLOAT_CAPACITY;
 	
 	int intItems[] = {0, 0, 0};
-	float containerInt = sDataContainer1[containerIndex];
-	intItems[2] = floor(containerInt / 256.0 / 256.0);
-    intItems[1] = floor((containerInt - intItems[2] * 256.0 * 256.0) / 256.0);
-    intItems[0] = floor(containerInt - intItems[2] * 256.0 * 256.0 - intItems[1] * 256.0);
-    
+	int containerInt = sDataContainer1[containerIndex];
+	
+	intItems[2] = (containerInt) / 65536;
+    intItems[1] = (containerInt - intItems[2] * 65536) / 256;
+    intItems[0] = (containerInt - intItems[2] * 65536 - intItems[1] * 256);
+
     return intItems[floatIndex]/255.0;
 };
