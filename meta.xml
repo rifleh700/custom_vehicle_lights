@@ -11,23 +11,21 @@
 	<include resource="extended_custom_coronas" />
 
 	<file src="config.xml" />
-		
-	<file src="mta-helper.fx" />
+
 	<file src="container.fx" />
 	<file src="lights.fx" />
 
+	<script src="check.lua"								type="shared" />
 
-	<script src="check.lua"					type="shared" />
+	<script src="cvl_helper_shared.lua"					type="shared" />
+	<script src="cvl_import_client.lua"					type="client" />
 
-	<script src="cvl_helper_shared.lua"		type="shared" />
-	<script src="cvl_import_client.lua"		type="client" />
+    <script src="cvl_main_client.lua"					type="client" />
+    <script src="cvl_exported_client.lua"				type="client" />
 
-    <script src="cvl_main_client.lua"		type="client" />
-    <script src="cvl_exported_client.lua"	type="client" />
-
-    <export function="getVehicleCustomLightName" type="shared" />
-    <export function="getVehicleCustomLightFromName" type="shared" />
-    <export function="getVehicleCustomLightPower" type="shared" />
-    <export function="setVehicleCustomLightPower" type="shared" />
+    <export function="getVehicleCustomLightName"		type="client" />
+    <export function="getVehicleCustomLightFromName"	type="client" />
+    <export function="getVehicleCustomLightPower"		type="client" />
+    <export function="setVehicleCustomLightPower"		type="client" />
 
 </meta>

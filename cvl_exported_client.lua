@@ -19,16 +19,6 @@ function getVehicleCustomLightFromName(name)
 	return nil
 end
 
-function getValidVehicleCustomLights()
-	if not scheck("n") then return false end
-
-	local lights = {}
-	for i = 1, #CVL.lightsData do
-		lights[i] = i
-	end
-	return lights
-end
-
 function getVehicleCustomLightPower(vehicle, lightID)
 	if not scheck("u:element:vehicle,n") then return false end
 

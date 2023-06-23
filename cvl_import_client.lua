@@ -16,7 +16,7 @@ addEventHandler("onClientResourceStop", root, onStop)
 function import(resourceName, defineSpace, spaceName)
 	if type(resourceName) ~= "string" then error("bad argument #1 to 'import' (string expected)", 2) end
 	if defineSpace and defineSpace ~= true then error("bad argument #2 to 'import' (boolean expected)", 2) end
-	if spaceName and type("spaceName") ~= "string" then error("bad argument #3 to 'import' (string expected)", 2) end
+	if spaceName and type(spaceName) ~= "string" then error("bad argument #3 to 'import' (string expected)", 2) end
 
 	local importResource = getResourceFromName(resourceName)
 	if not importResource then error("resource '"..resourceName.."' not found", 2) end
@@ -44,4 +44,4 @@ function import(resourceName, defineSpace, spaceName)
 	return true
 end
 
-import("ecc")
+import("extended_custom_coronas")

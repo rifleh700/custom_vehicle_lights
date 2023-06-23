@@ -1,7 +1,6 @@
 
 local CONFIG_PATH = "config.xml"
 local SHADER_PATH = "lights.fx"
-local TEXTURE_NAME = "vehiclelights"
 local SHADER_MAX_DISTANCE = 100
 
 local CORONA_OUTER_CONE = 180
@@ -110,8 +109,7 @@ function CVL.createCoronas(vehicle)
 					local corona = createDirectionalCorona(0, 0, 0, 0, 0, 0, dummyData.size, dummyData.color[1], dummyData.color[2], dummyData.color[3], alpha)
 					setDirectionalCoronaCone(corona, CORONA_OUTER_CONE, CORONA_INNER_CONE)
 					local offRX, offRY, offRZ = CVL.getDummyRotation(vehicle, lightData.dummy)
-					local isLeft = lightData.side == "left"
-					attachCorona(corona, vehicle, offX * (isLeft and -1 or 1), offY, offZ, offRX, offRZ, -offRY * (isLeft and -1 or 1))
+					attachCorona(corona, vehicle, offX * (lightData.mirrored and -1 or 1), offY, offZ, offRX, offRZ, -offRY * (lightData.mirrored and -1 or 1))
 					coronas[lightID] = corona
 				end
 			end
@@ -128,7 +126,9 @@ function CVL.applyShader(vehicle)
 	local shader = dxCreateShader(SHADER_PATH, CVL.shaderMacros, 0, SHADER_MAX_DISTANCE, false, "vehicle")
 	dxSetShaderValue(shader, "sDataContainer1", CVL.toShaderLightsPower(CVL.getData(vehicle, "power") or {}))
  
-	engineApplyShaderToWorldTexture(shader, TEXTURE_NAME, vehicle, false)
+ 	for i, textureName in ipairs(CVL.textures) do
+		engineApplyShaderToWorldTexture(shader, textureName, vehicle, false)
+	end
 	CVL.setData(vehicle, "shader", shader)
 
 	return true
@@ -191,11 +191,19 @@ addEventHandler("onClientElementDestroy", root,
 function CVL.loadConfig()
 		
 	local configNode = xmlLoadFile(CONFIG_PATH, true)
+	local texturesConfigNode = xmlNodeFindChild(configNode, "textures")
+	local texturesConfigNodeData = xmlNodeGetData(texturesConfigNode)
 	local dummiesConfigNode = xmlNodeFindChild(configNode, "dummies")
 	local dummiesConfigNodeData = xmlNodeGetData(dummiesConfigNode)
 	local lightsConfigNode = xmlNodeFindChild(configNode, "lights")
 	local lightsConfigNodeData = xmlNodeGetData(lightsConfigNode)
 	xmlUnloadFile(configNode)
+
+	local textures = {}
+	for i, nodeData in ipairs(texturesConfigNodeData.children) do
+		table.insert(textures, nodeData.attributes.name)
+	end
+	CVL.textures = textures
 
 	local dummiesData = {}
 	for i, nodeData in ipairs(dummiesConfigNodeData.children) do
@@ -217,7 +225,7 @@ function CVL.loadConfig()
 		local lightData = {
 			name = nodeData.attributes.name,
 			dummy = nodeData.attributes.dummy,
-			side = nodeData.attributes.side
+			mirrored = nodeData.attributes.mirrored == tostring(true)
 		}
 		lightsData[i] = lightData
 
