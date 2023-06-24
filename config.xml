@@ -2,7 +2,7 @@
 
 	<!--
 		List of light textures.
-		Note: you cannot use default vehiclelights128 or vehiclelightson128 textures.
+		Note: default name vehiclelights128 is not recommended due to default lights affecting .
 	--> 
 	<textures>
 		<texture name="vehiclelights" />
