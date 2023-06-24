@@ -38,7 +38,7 @@ Light item means concrete custom light:
 
 ### Model adaptation
 Steps by example of `reverse_r` light:
-- create material with texture named `vehiclelights` (this is just default name, you can change it or add another in config, **default GTA:SA texture `vehiclelights128` is not allowed due to technical limits**)
+- create material with texture named `vehiclelights` (this is just default name, you can change it or add another in config)
 - define material diffuse color equals to `flag` value, for `reverse_r` it is `255,58,1`
 - apply material to light polygons
 - create unique dummy named `reverselights` and define its rotation
