@@ -179,12 +179,10 @@ end
 function CVL.loadConfig()
 	
 	local configNode = xmlLoadFile(CONFIG_PATH, true)
-	local texturesConfigNode = xmlNodeFindChild(configNode, "textures")
-	local texturesConfigNodeData = xmlNodeGetData(texturesConfigNode)
-	local lightsConfigNode = xmlNodeFindChild(configNode, "lights")
-	local lightsConfigNodeData = xmlNodeGetData(lightsConfigNode)
+	local texturesConfigNodeData = xmlNodeGetData(xmlNodeFindChild(configNode, "textures"))
+	local lightsConfigNodeData = xmlNodeGetData(xmlNodeFindChild(configNode, "lights"))
 	local modelsConfigNode = xmlNodeFindChild(configNode, "models")
-	local modelsConfigNodeData = xmlNodeGetData(modelsConfigNode)
+	local modelsConfigNodeData = modelsConfigNode and xmlNodeGetData(modelsConfigNode)
 	xmlUnloadFile(configNode)
 
 	local textures = {}
@@ -221,32 +219,34 @@ function CVL.loadConfig()
 	end
 
 	local modelsData = {}
-	for i, modelNodeData in ipairs(modelsConfigNodeData.children) do
-		local modelLights = {}
-		for j, lightNodeData in ipairs(modelNodeData.children) do
-			local lightData = {}
-			if lightNodeData.attributes.color then
-				lightData.color = {}
-				local iterator = string.gmatch(lightNodeData.attributes.color, "%d+")
-				for c = 1, 4 do
-					lightData.color[c] = tonumber(iterator() or 255)
+	if modelsConfigNodeData then
+		for i, modelNodeData in ipairs(modelsConfigNodeData.children) do
+			local modelLights = {}
+			for j, lightNodeData in ipairs(modelNodeData.children) do
+				local lightData = {}
+				if lightNodeData.attributes.color then
+					lightData.color = {}
+					local iterator = string.gmatch(lightNodeData.attributes.color, "%d+")
+					for c = 1, 4 do
+						lightData.color[c] = tonumber(iterator() or 255)
+					end
 				end
-			end
-			if lightNodeData.attributes.size then
-				lightData.size = tonumber(lightNodeData.attributes.size)
-			end
-			if lightNodeData.attributes.rotation then
-				lightData.rot = {}
-				local iterator = string.gmatch(lightNodeData.attributes.rotation, "%d+")
-				for c = 1, 3 do
-					lightData.rot[c] = tonumber(iterator() or 0)
+				if lightNodeData.attributes.size then
+					lightData.size = tonumber(lightNodeData.attributes.size)
 				end
+				if lightNodeData.attributes.rotation then
+					lightData.rot = {}
+					local iterator = string.gmatch(lightNodeData.attributes.rotation, "%d+")
+					for c = 1, 3 do
+						lightData.rot[c] = tonumber(iterator() or 0)
+					end
+				end
+				modelLights[ids[lightNodeData.attributes.name]] = lightData
 			end
-			modelLights[ids[lightNodeData.attributes.name]] = lightData
+			modelsData[tonumber(modelNodeData.attributes.id)] = {
+				lights = modelLights
+			}
 		end
-		modelsData[tonumber(modelNodeData.attributes.id)] = {
-			lights = modelLights
-		}
 	end
 
 	CVL.globalData = {

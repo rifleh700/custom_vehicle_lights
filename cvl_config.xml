@@ -63,8 +63,8 @@
 		It is recommended to define light rotation by model dummies, not by this config.
 		Rotation Y axis (2nd number) doesn't matter.
 	-->
-	<!-- Example block -->
-
+	<!-- Example node -->
+	<!--
 	<models>
 		<model id="445">
 			<light name="reverse_r" 	size="0.30" />
@@ -73,5 +73,6 @@
 			<light name="tail_l" 		size="0.45"		color="255,0,0,100"		rotation="0,0,180"/>
 		</model>
 	</models>
+	-->
 
 </config>
