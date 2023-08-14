@@ -1,20 +1,21 @@
 
-static int FLOAT_SIZE = 32;
-static int FLOAT_CAPACITY = (FLOAT_SIZE-1)/8;
-
+//Stores data as int
 int sDataContainer1[16];
 
+//Returns data as float
 float GetContainerData(int index) {
 
-	int containerIndex = index / FLOAT_CAPACITY;
-	int floatIndex = index % FLOAT_CAPACITY;
+	int containerIndex = index / 3;
+	int intIndex = index % 3;
 	
-	int intItems[] = {0, 0, 0};
-	int containerInt = sDataContainer1[containerIndex];
-	
-	intItems[2] = (containerInt) / 65536;
-    intItems[1] = (containerInt - intItems[2] * 65536) / 256;
-    intItems[0] = (containerInt - intItems[2] * 65536 - intItems[1] * 256);
+	int ints[] = {0, 0, 0};
+	int data = sDataContainer1[containerIndex];
 
-    return intItems[floatIndex]/255.0;
+	ints[2] = (data) / 65536;
+	data %= 65536;
+    ints[1] = data / 256;
+    data %= 256;
+    ints[0] = data;
+
+    return ints[intIndex]/255.0;
 };
