@@ -1,6 +1,30 @@
 
+function warn(msg, lvl)
+	if type(msg) ~= "string" then error("bad argument #1 'msg' to 'warn' (string expected)", 3) end
+	if lvl and type(lvl) ~= "number" then error("bad argument #2 'lvl' to 'warn' (number expected)", 3) end
+
+	lvl = (lvl or 1) + 1
+	local dbInfo = debug.getinfo(lvl, "lS")
+
+	if dbInfo and lvl > 1 then
+		local src = dbInfo.short_src
+		local line = dbInfo.currentline
+
+		msg = string.format(
+			"%s:%s: %s",
+			src, line, msg
+		)
+	end
+
+	return outputDebugString("WARNING: "..msg, 4, 255, 127, 0)
+end
+
+function math.clamp(value, min, max)
+
+	return value < min and min or value > max and max or value
+end
+
 function string.split(s, sep, limit, plain)
-	check("s,?s,?n,?b")
 
 	if limit and limit < 1 then return {} end
 	if s == "" then return {""} end
@@ -19,7 +43,6 @@ function string.split(s, sep, limit, plain)
 end
 
 function xmlNodeGetData(node)
-	if not scheck("u:xml-node") then return false end
 
 	local data = {}
 	data.name = xmlNodeGetName(node)
@@ -33,15 +56,22 @@ function xmlNodeGetData(node)
 	for i, childNode in ipairs(children) do
 		data.children[i] = xmlNodeGetData(childNode)
 	end
-	
+
 	return data
 end
 
 function xmlNodeFindChild(node, name)
-	if not scheck("u:xml-node,s") then return false end
-	
+
 	for i, child in ipairs(xmlNodeGetChildren(node)) do
 		if xmlNodeGetName(child) == name then return child end
 	end
 	return nil
+end
+
+function getRotationFromDirection(dirX, dirY, dirZ)
+
+	return
+		math.deg(math.atan2(dirZ, getDistanceBetweenPoints2D(dirX, dirY, 0, 0))),
+		0,
+		-math.deg(math.atan2(dirX, dirY))
 end

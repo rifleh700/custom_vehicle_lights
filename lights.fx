@@ -24,16 +24,12 @@ bool MatchRGB(float3 rgb1, float3 rgb2) {
 
 int DetectLight() {
 
-	int light = NOT_LIGHT;
-	bool found = false;
-	for(int i = 0; (i < MACRO_LIGHTS_FLAGS_ARRAY_SIZE) && !found; i++) {
-		light = i;
-		found = MatchRGB(LIGHTS_FLAGS[i]/255, gMaterialDiffuse.rgb);
+	for(int light = 0; light < MACRO_LIGHTS_FLAGS_ARRAY_SIZE; light++) {
+		if (MatchRGB(LIGHTS_FLAGS[light]/255, gMaterialDiffuse.rgb)) return light;
 	}
-	return found ? light : NOT_LIGHT;
+	return NOT_LIGHT;
 }
 static int CURRENT_LIGHT = DetectLight();
-
 
 technique lights {
 	pass P0 {
